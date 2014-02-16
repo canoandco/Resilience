@@ -115,13 +115,30 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
+
+grails.plugin.springsecurity.useBasicAuth = true
+grails.plugin.springsecurity.basic.realmName = "HTTP Basic Auth Demo"
+
+/**
+grails.plugin.springsecurity.securityConfigType = 'InterceptUrlMap'
+grails.plugin.springsecurity.interceptUrlMap = [
+        '/api/v1/**': ['ROLE_USER']
+]
+**/
+grails.plugin.springsecurity.filterChain.chainMap = [
+        '/api/**': 'JOINED_FILTERS,-exceptionTranslationFilter',
+        '/**': 'JOINED_FILTERS,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
+]
+
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.resilience.security.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.resilience.security.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.resilience.security.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         '/': ['permitAll'],
         '/index': ['permitAll'],
-        '/api/v1/*': ['permitAll'],
+        '/user/**': ['ROLE_USER'],
+        '/api/**': ['ROLE_USER'],
+        '/dbconsole/**': ['permitAll'],
         '/index.gsp': ['permitAll'],
         '/**/js/**': ['permitAll'],
         '/**/css/**': ['permitAll'],

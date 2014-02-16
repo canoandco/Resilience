@@ -2,6 +2,8 @@ package com.resilience.ws
 
 import com.resilience.MediaCategory
 import com.resilience.security.User
+import grails.converters.JSON
+import grails.converters.XML
 
 class ApiController {
 
@@ -26,7 +28,14 @@ class ApiController {
             return
         }
 
-        respond user
+        render withFormat  {
+            json {
+                render user as JSON
+            }
+            xml {
+                render user as XML
+            }
+        }
     }
 
     def subscribe = {
@@ -54,6 +63,13 @@ class ApiController {
 
         user.addToSubscriptions(category)
 
-        respond category
+        render withFormat  {
+            json {
+              render category as JSON
+            }
+            xml {
+              render category as XML
+            }
+        }
     }
 }

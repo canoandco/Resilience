@@ -5,10 +5,11 @@ import com.resilience.security.User
 class Media {
 
     MediaType mediaType
-    User mediaProvider
     String mediaLink
     Date dateTimeBegin
     Date dateTimeEnd
+
+    static belongsTo = [provider:User]
 
     static constraints = {
     }

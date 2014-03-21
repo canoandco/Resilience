@@ -1,5 +1,6 @@
 package com.resilience.security
 
+
 import com.resilience.Media
 import com.resilience.MediaCategory
 
@@ -19,7 +20,7 @@ class User {
 
 	static transients = ['springSecurityService']
 
-    static hasMany = ["subscriptions":MediaCategory,"medias":Media]
+    static hasMany = [subscriptions:MediaCategory,medias:Media]
 
 	static constraints = {
 		username blank: false, nullable:false, unique: true
@@ -29,11 +30,6 @@ class User {
 	static mapping = {
 		password column: '`password`'
 	}
-
-    @XmlTransient
-    def getPassword() {
-        return password
-    }
 
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this).collect { it.role } as Set

@@ -1,10 +1,12 @@
 package com.resilience
 
+import com.resilience.security.Role
 import com.resilience.security.User
+import com.resilience.security.UserRole
 import grails.transaction.Transactional
 
 @Transactional
-class ClientService {
+class ApiService {
 
 
     def User registerClient(String username, String password) {
@@ -16,6 +18,11 @@ class ClientService {
                 password: password
         )
         user.save(failOnError: true)
+        Role role = Role.findByAuthority("ROLE_USER")
+        UserRole userRole = new UserRole()
+        userRole.setUser(user)
+        userRole.setRole(role)
+        userRole.save(failOnError: true)
         return user
     }
 

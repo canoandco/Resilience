@@ -1,5 +1,6 @@
 package com.resilience.errors
 
+import com.resilience.tools.Converter
 import com.resilience.tools.ToolboxService
 
 class ErrorController {
@@ -10,7 +11,7 @@ class ErrorController {
                     errorCode: code,
                     errorMessage: message,
                     detailedMessage: detailedMessage,
-                    timestamp: ToolboxService.dateToISO8601(new Date())
+                    timestamp: Converter.dateToISO8601(new Date())
             ]
         }
     }

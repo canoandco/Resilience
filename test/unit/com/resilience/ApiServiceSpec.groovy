@@ -1,4 +1,4 @@
-package com.resilience.tools
+package com.resilience
 
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(ToolboxService)
-class ToolboxServiceSpec extends Specification {
+@TestFor(ApiService)
+class ApiServiceSpec extends Specification {
 
     def setup() {
     }

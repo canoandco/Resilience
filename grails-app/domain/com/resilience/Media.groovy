@@ -6,8 +6,8 @@ class Media {
 
     MediaType mediaType
     String mediaLink
-    Date dateTimeBegin
-    Date dateTimeEnd
+    String mediaName
+    String mediaDescription
 
     static belongsTo = [provider:User]
 

@@ -20,7 +20,7 @@ class User {
 
 	static transients = ['springSecurityService']
 
-    static hasMany = [subscriptions:MediaCategory,medias:Media]
+    static hasMany = [subscriptions:MediaCategory]
 
 	static constraints = {
 		username blank: false, nullable:false, unique: true

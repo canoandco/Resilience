@@ -47,8 +47,8 @@ class BootStrap {
                 provider: dummyUser,
                 mediaType: dummyType,
                 mediaLink: "link",
-                dateTimeBegin: new Date(),
-                dateTimeEnd: new Date()
+                mediaName: "testMedia",
+                mediaDescription: "testMediaDescription"
         )
 
         dummyMedia.save(failOnError: true)

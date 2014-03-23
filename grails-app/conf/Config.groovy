@@ -136,8 +136,9 @@ grails.plugin.springsecurity.authority.className = 'com.resilience.security.Role
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         '/': ['permitAll'],
         '/index': ['permitAll'],
-        '/user/**': ['ROLE_USER'],
-        '/api/**': ['ROLE_USER'],
+        '/user/**': ['ROLE_ADMIN','ROLE_USER'],
+        '/api/**': ['ROLE_ADMIN','ROLE_USER'],
+        '/api/v1/user/**': ['permitAll'],
         '/dbconsole/**': ['permitAll'],
         '/index.gsp': ['permitAll'],
         '/**/js/**': ['permitAll'],

@@ -1,7 +1,6 @@
 package com.resilience.errors
 
 import com.resilience.tools.Converter
-import com.resilience.tools.ToolboxService
 
 class ErrorController {
 
@@ -34,6 +33,14 @@ class ErrorController {
 
     def alreadySubscribed() {
         formatError(400, 5,"Catégorie déjà souscrite", "L'utilisateur est déjà abonné à cette catégorie.")
+    }
+
+    def notSubscribed() {
+        formatError(400, 6,"Catégorie non souscrite", "L'utilisateur est n'est pas abonné à cette catégorie.")
+    }
+
+    def mediaTypeNotFound() {
+        formatError(404, 7,"MediaType introuvable", "Le MediaType n'a pas pu être trouvé.")
     }
 
 

@@ -55,9 +55,8 @@ class Converter {
             returnSet.provider = it.provider
             returnSet.mediaType = it.mediaType
             returnSet.mediaLink = it.mediaLink
-            returnSet.dateTimeBegin = it.dateTimeBegin
-            returnSet.dateTimeEnd = it.dateTimeEnd
-
+            returnSet.mediaName = it.mediaName
+            returnSet.mediaDescription = it.mediaDescription
             return returnSet
         }
 
@@ -68,9 +67,8 @@ class Converter {
             returnSet.provider = it.provider
             returnSet.mediaType = it.mediaType
             returnSet.mediaLink = it.mediaLink
-            returnSet.dateTimeBegin = it.dateTimeBegin
-            returnSet.dateTimeEnd = it.dateTimeEnd
-
+            returnSet.mediaName = it.mediaName
+            returnSet.mediaDescription = it.mediaDescription
             return returnSet
         }
 

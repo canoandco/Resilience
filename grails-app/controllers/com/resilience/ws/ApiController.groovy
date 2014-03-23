@@ -1,13 +1,16 @@
 package com.resilience.ws
 
+import com.resilience.Media
 import com.resilience.MediaCategory
+import com.resilience.MediaType
 import com.resilience.security.User
 import grails.converters.JSON
 import grails.converters.XML
 
 class ApiController {
 
-    def apiService
+    def userService
+    def mediaService
 
     static namespace = 'v1'
 
@@ -18,14 +21,12 @@ class ApiController {
 
     def register = {
 
-
-
         if (!params.username || !params.password) {
             forward(controller: "error", action: "missingParameter")
             return
         }
 
-        User user = apiService.registerClient(params.username, params.password)
+        User user = userService.registerClient(params.username, params.password)
 
         if (!user) {
             forward(controller: "error", action: "userExists")
@@ -42,21 +43,38 @@ class ApiController {
         }
     }
 
-    def subscribe = {
-
-
-        if(!params.username || !params.categoryId) {
-            forward(controller: "error", action: "missingParameter")
-            return
-        }
-
-        User user = User.findByUsername(params.username)
+    def login = {
+        User user = userService.getUserWithCredentials(request)
         if(!user) {
             forward(controller: "error", action: "userNotFound")
             return
         }
 
-        MediaCategory category = MediaCategory.findById(params.categoryId)
+        render withFormat  {
+            json {
+                render user as JSON
+            }
+            xml {
+                render user as XML
+            }
+        }
+    }
+
+    def subscribe = {
+
+
+        if(!params.userId || !params.mediaCategoryId) {
+            forward(controller: "error", action: "missingParameter")
+            return
+        }
+
+        User user = User.findById(params.userId)
+        if(!user) {
+            forward(controller: "error", action: "userNotFound")
+            return
+        }
+
+        MediaCategory category = MediaCategory.findById(params.mediaCategoryId)
         if(!category) {
             forward(controller: "error", action: "categoryNotFound")
             return
@@ -71,13 +89,106 @@ class ApiController {
 
         render withFormat  {
             json {
-              render category as JSON
+                render category as JSON
             }
             xml {
-              render category as XML
+                render category as XML
             }
         }
     }
+
+    def addMedia = {
+        if(!params.url || !params.mediaTypeId || !params.mediaCategoryId || !params.mediaName || !params.mediaDescription ||
+        !params.userId) {
+            forward(controller: "error", action: "missingParameter")
+            return
+        }
+
+        MediaType mediaType = MediaType.findById(params.mediaTypeId)
+
+        if(!mediaType) {
+            forward(controller: "error", action: "mediaTypeNotFound")
+            return
+        }
+
+        User user = User.findById(params.userId)
+
+        if(!user) {
+            forward(controller: "error", action: "userNotFound")
+            return
+        }
+
+        Media media = mediaService.addMedia(mediaType,params.mediaName,params.mediaDescription,params.url,user)
+
+
+        render withFormat  {
+            json {
+                render media as JSON
+            }
+            xml {
+                render media as XML
+            }
+        }
+
+    }
+
+    def deleteMedia = {
+
+        if(!params.id) {
+            forward(controller: "error", action: "missingParameter")
+            return
+        }
+
+       Media media = Media.findById(params.id)
+
+        if(!media) {
+            forward(controller: "error", action: "mediaNotFound")
+            return
+        }
+
+        media.delete()
+
+    }
+
+
+
+    def unsubscribe = {
+
+
+        if(!params.userId || !params.mediaCategoryId) {
+            forward(controller: "error", action: "missingParameter")
+            return
+        }
+
+        User user = User.findById(params.userId)
+        if(!user) {
+            forward(controller: "error", action: "userNotFound")
+            return
+        }
+
+        MediaCategory category = MediaCategory.findById(params.mediaCategoryId)
+        if(!category) {
+            forward(controller: "error", action: "categoryNotFound")
+            return
+        }
+
+        if(!user.getSubscriptions().contains(category)) {
+            forward(controller: "error", action: "notSubscribed")
+            return
+        }
+
+        user.removeFromSubscriptions(category)
+
+        render withFormat  {
+            json {
+                render category as JSON
+            }
+            xml {
+                render category as XML
+            }
+        }
+    }
+
 
     def getMediaCategories =  {
 
@@ -94,9 +205,29 @@ class ApiController {
 
     }
 
+    def getMediaTypes =  {
+
+        Collection<MediaType> mediaTypes = MediaType.list()
+
+        render withFormat {
+            json {
+                render mediaTypes as JSON
+            }
+            xml {
+                render mediaTypes as XML
+            }
+        }
+
+    }
+
     def getMediaCategoriesByUser =  {
 
-        User user = User.findByUsername(params.username)
+        if(!params.id) {
+            forward(controller: "error", action: "missingParameter")
+            return
+        }
+
+        User user = User.findById(params.id)
 
         if(!user) {
             forward(controller: "error", action: "userNotFound")

@@ -8,5 +8,6 @@ class MediaCategory {
     static hasMany = [medias:Media]
 
     static constraints = {
+
     }
 }

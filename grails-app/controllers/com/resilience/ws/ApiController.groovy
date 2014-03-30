@@ -150,6 +150,10 @@ class ApiController {
 
     }
 
+    // A implémenter
+    def updateMedia = {
+
+    }
 
 
     def unsubscribe = {

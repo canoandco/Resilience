@@ -1,7 +1,7 @@
 class UrlMappings {
 
 	static mappings = {
-        "/$controller/$action?/$id?(.${format})?"{
+        "/$controller/$action?/$id"{
             constraints {
                 // apply constraints here
             }
@@ -13,50 +13,44 @@ class UrlMappings {
 
         // Mapping API REST Resilience v1
 
-        "/api/v1/login?(.${format})?" {
+        "/api/v1/user" {
             controller = "api"
-            action = [GET:"login"]
-            namespace = 'v1'
-        }
-
-        "/api/v1/user?(.${format})?" {
-            controller = "api"
-            action = [POST:"register"]
+            action = [GET:"login",POST:"register"]
             namespace = 'v1'
         }
 
 
-        "/api/v1/media?(.${format})?/?${id}?" {
+        "/api/v1/media/?${id}?" {
             controller = "api"
             action = [POST:"addMedia",PUT:"updateMedia",DELETE:"deleteMedia"]
             namespace = 'v1'
         }
 
-        "/api/v1/mediacategory?(.${format})?" {
+        "/api/v1/mediacategory" {
             controller = "api"
             action = [GET:"getMediaCategories"]
             namespace = 'v1'
         }
 
-        "/api/v1/mediatype?(.${format})?" {
+        "/api/v1/mediatype" {
             controller = "api"
             action = [GET:"getMediaTypes"]
             namespace = 'v1'
         }
 
-        "/api/v1/user/?${id}?/mediacategory?(.${format})?" {
+        "/api/v1/user/?${id}?/mediacategory" {
             controller = "api"
             action = [GET:"getMediaCategoriesByUser"]
             namespace = 'v1'
         }
 
-        "/api/v1/mediacategory/?${mediaCategoryId}?/user/?${userId}?/?(.${format})?" {
+        "/api/v1/mediacategory/?${mediaCategoryId}?/user/?${userId}?" {
             controller = "api"
             action = [PUT:"subscribe"]
             namespace = 'v1'
         }
 
-        "/api/v1/user/?${userId}?/mediacategory/?${mediaCategoryId}?/?(.${format})?" {
+        "/api/v1/user/?${userId}?/mediacategory/?${mediaCategoryId}?" {
             controller = "api"
             action = [PUT:"unsubscribe"]
             namespace = 'v1'

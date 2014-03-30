@@ -1,1 +1,235 @@
-This file was created by IntelliJ IDEA 12.1.6 for binding GitHub repository
+Documentation
+
+Resilience permet de partager des urls vers divers médias.
+Les médias sont rangés dans des catégories et possèdent un type.
+Les utilisateur peuvent s'abonner à des catégories de médias.
+
+AUTHENTIFICATION
+
+Tout appel de requète (sauf pour l'inscription) nécessite une authentification HTTP BASIC AUTH.
+
+METHODES DE L'API
+
+"/user"
+
+- GET : permet d'obtenir l'objet utilisateur via authentification basic auth (permet de s'authentifier sur l'application mobile.
+- POST : permet de s'inscrire.
+
+Paramètres POST :
+
+username : nom d'utilisateur
+password : mot de passe
+
+
+Exemple de réponse:
+
+{
+    "id": 1,
+    "username": "user"
+}
+
+
+"/mediacategory"
+
+GET : permet d'obtenir la liste des catégories de médias.
+
+Exemple de réponse:
+
+[
+    {
+        "id": 1,
+        "mediaCategoryDesc": "testCategory",
+        "medias": [
+            {
+                "id": 1,
+                "provider": {
+                    "id": 1,
+                    "username": "user"
+                },
+                "mediaType": {
+                    "id": 1,
+                    "mediaTypeName": "typeTestName",
+                    "mediaTypeDesc": "typeTestDesc"
+                },
+                "mediaLink": "link",
+                "mediaName": "testMedia",
+                "mediaDescription": "testMediaDescription"
+            }
+        ]
+    }
+]
+
+"/mediatype"
+
+GET : permet d'obtenir la liste des types de médias.
+
+Exemple de réponse:
+
+[
+    {
+        "id": 1,
+        "mediaTypeName": "typeTestName",
+        "mediaTypeDesc": "typeTestDesc"
+    }
+]
+
+
+"/media/{id}"
+
+(id : id du médium)
+
+- POST : permet d'ajouter un médium
+- PUT : permet de modifier un médium
+- DELETE : permet d'effacer un médium
+
+Paramètres POST et PUT:
+
+mediaCategoryId : id de catégorie
+mediaTypeId : id de type de médium
+mediaName : nom du médium
+mediaDescription : description du médium
+userId : id de l'utilisateur effectuant l'action
+url : url du médium
+
+Exemple de réponse:
+
+note: provider est l'utilisateur ayant fourni le médium.
+
+{
+    "id": 2,
+    "provider": {
+        "id": 1,
+        "username": "toto"
+    },
+    "mediaType": {
+        "id": 1,
+        "mediaTypeName": "exemple de nom",
+        "mediaTypeDesc": "exemple de description"
+    },
+    "mediaLink": "http://www.test.com",
+    "mediaName": "test",
+    "mediaDescription": "test"
+}
+
+
+"/user/${id}/mediacategory"
+
+(id : id de l'utilisateur)
+
+- GET : permet d'obtenir la liste des catégories de médias auxquelles l'utilisateur est abonné.
+
+Exemple de réponse
+
+[
+    {
+        "id": 1,
+        "mediaCategoryDesc": "testCategory",
+        "medias": [
+            {
+                "id": 1,
+                "provider": {
+                    "id": 1,
+                    "username": "user"
+                },
+                "mediaType": {
+                    "id": 1,
+                    "mediaTypeName": "typeTestName",
+                    "mediaTypeDesc": "typeTestDesc"
+                },
+                "mediaLink": "link",
+                "mediaName": "testMedia",
+                "mediaDescription": "testMediaDescription"
+            }
+        ]
+    }
+]
+
+"/mediacategory/{mediaCategoryId}/user/{userId}"
+
+PUT : permet de s'abonner à une catégorie de médias
+
+Exemple de réponse :
+
+  {
+        "id": 1,
+        "mediaCategoryDesc": "testCategory",
+        "medias": [
+            {
+                "id": 1,
+                "provider": {
+                    "id": 1,
+                    "username": "user"
+                },
+                "mediaType": {
+                    "id": 1,
+                    "mediaTypeName": "typeTestName",
+                    "mediaTypeDesc": "typeTestDesc"
+                },
+                "mediaLink": "link",
+                "mediaName": "testMedia",
+                "mediaDescription": "testMediaDescription"
+            }
+        ]
+    }
+
+
+"/user/{userId}/mediacategory/{mediaCategoryId}"
+
+- PUT : permet de de désabonner d'une catégorie.
+
+Exemple de réponse :
+
+
+{
+        "id": 1,
+        "mediaCategoryDesc": "testCategory",
+        "medias": [
+            {
+                "id": 1,
+                "provider": {
+                    "id": 1,
+                    "username": "user"
+                },
+                "mediaType": {
+                    "id": 1,
+                    "mediaTypeName": "typeTestName",
+                    "mediaTypeDesc": "typeTestDesc"
+                },
+                "mediaLink": "link",
+                "mediaName": "testMedia",
+                "mediaDescription": "testMediaDescription"
+            }
+        ]
+    }
+
+
+GESTION DES ERREURS
+
+Format :
+
+{
+    "errorCode": 5,
+    "errorMessage": "Catégorie déjà souscrite",
+    "detailedMessage": "L'utilisateur est déjà abonné à cette catégorie.",
+    "timestamp": "2014-03-30T17:29:08+02:00"
+}
+
+Codes applicatifs :
+
+1 (code http 400): paramètre manquant
+2 (code http 400): l'utilisateur existe déjà
+3 (code http 404): utilisateur introuvable
+4 (code http 404): catégorie introuvable
+5 (code http 400): catégorie déjà souscrite
+6 (code http 400): catégorie non souscrite
+7 (code http 404): type de média introuvable
+
+
+
+
+
+
+
+
+
+

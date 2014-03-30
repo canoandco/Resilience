@@ -4,6 +4,10 @@ Resilience permet de partager des urls vers divers médias.
 Les médias sont rangés dans des catégories et possèdent un type.
 Les utilisateur peuvent s'abonner à des catégories de médias.
 
+VERSION DE GRAILS
+
+La version de Grails utilisée est la 2.3.5.
+
 AUTHENTIFICATION
 
 Tout appel de requète (sauf pour l'inscription) nécessite une authentification HTTP BASIC AUTH.
